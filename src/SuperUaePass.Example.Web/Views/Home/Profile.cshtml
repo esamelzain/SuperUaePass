@@ -1,0 +1,158 @@
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            @if (ViewBag.UserProfile != null)
+            {
+                var profile = ViewBag.UserProfile as SuperUaePass.Example.Web.Controllers.UaePassSessionData;
+                
+                <!-- Simple Profile Header -->
+                <div class="text-center mb-5">
+                    <div class="mb-3">
+                        <i class="fas fa-user-circle fa-4x text-primary"></i>
+                    </div>
+                    <h1 class="h2 mb-2">@profile.FullNameEn</h1>
+                    <p class="text-muted mb-3">UAE Pass Authenticated User</p>
+                    <span class="badge bg-success">
+                        <i class="fas fa-check-circle me-1"></i>Verified Emirates ID
+                    </span>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="row g-4">
+                    <!-- Personal Information -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-user me-2"></i>Personal Information
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Emirates ID</label>
+                                    <p class="mb-0">@profile.EmiratesId</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Full Name (English)</label>
+                                    <p class="mb-0">@profile.FullNameEn</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Full Name (Arabic)</label>
+                                    <p class="mb-0">@profile.FullNameAr</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Email Address</label>
+                                    <p class="mb-0">@(profile.Email ?? "Not provided")</p>
+                                </div>
+                                <div class="mb-0">
+                                    <label class="form-label fw-bold text-muted small">Mobile Number</label>
+                                    <p class="mb-0">@(profile.Mobile ?? "Not provided")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Authentication Details -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-key me-2"></i>Authentication Details
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Login Time</label>
+                                    <p class="mb-0">@profile.LoggedInAt.ToString("yyyy-MM-dd HH:mm:ss") UTC</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Session Duration</label>
+                                    <p class="mb-0">@((DateTime.UtcNow - profile.LoggedInAt).TotalMinutes.ToString("F1")) minutes</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Session ID</label>
+                                    <p class="mb-0 font-monospace small">@Context.Session.Id</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small">Authentication Method</label>
+                                    <p class="mb-0">
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle me-1"></i>UAE Pass
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="mb-0">
+                                    <label class="form-label fw-bold text-muted small">Status</label>
+                                    <p class="mb-0">
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-user-check me-1"></i>Active
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Summary -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-shield-alt me-2"></i>Security Summary
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center mb-3">
+                                        <i class="fas fa-id-card fa-2x text-success mb-2"></i>
+                                        <h6>Emirates ID Verified</h6>
+                                        <p class="text-muted small">Government-issued Emirates ID verified through UAE Pass</p>
+                                    </div>
+                                    <div class="col-md-4 text-center mb-3">
+                                        <i class="fas fa-lock fa-2x text-primary mb-2"></i>
+                                        <h6>Secure Session</h6>
+                                        <p class="text-muted small">Session protected with CSRF tokens and secure authentication</p>
+                                    </div>
+                                    <div class="col-md-4 text-center mb-3">
+                                        <i class="fas fa-clock fa-2x text-info mb-2"></i>
+                                        <h6>Real-time Authentication</h6>
+                                        <p class="text-muted small">Authentication performed in real-time through UAE Pass servers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="col-12 text-center">
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="/logout" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                            <a href="/" class="btn btn-outline-primary">
+                                <i class="fas fa-home me-2"></i>Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                    </div>
+                    <h2>No Profile Information</h2>
+                    <p class="text-muted mb-4">No user profile information is available. Please log in to view your profile.</p>
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>Return to Home
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

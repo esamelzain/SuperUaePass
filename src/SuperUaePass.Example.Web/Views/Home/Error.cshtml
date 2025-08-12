@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Authentication Error";
+}
+
+<div class="text-center">
+    <h1 class="display-4 text-danger">Authentication Error</h1>
+    <div class="alert alert-danger" role="alert">
+        @if (ViewBag.Error != null)
+        {
+            <p>@ViewBag.Error</p>
+        }
+        else
+        {
+            <p>An error occurred during UAE Pass authentication.</p>
+        }
+    </div>
+    <a href="/" class="btn btn-primary">Return to Home</a>
+    <a href="/login" class="btn btn-secondary">Try Again</a>
+</div>

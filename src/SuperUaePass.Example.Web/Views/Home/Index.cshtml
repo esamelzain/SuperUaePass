@@ -1,0 +1,436 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Hero Section -->
+            <div class="text-center mb-12 fade-in-up">
+                <div class="hero-icon mb-4">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1 class="hero-title mb-4">
+                    UAE Pass Authentication
+                </h1>
+                <p class="hero-subtitle mb-6">
+                    Professional .NET integration for UAE Pass authentication with enterprise-grade security
+                </p>
+                
+                @{
+                    var isAuthenticated = Context.Session.GetString("IsAuthenticated");
+                    var userEmiratesId = Context.Session.GetString("UserEmiratesId");
+                }
+                
+                @if (!string.IsNullOrEmpty(isAuthenticated) && isAuthenticated == "true" && !string.IsNullOrEmpty(userEmiratesId))
+                {
+                    <div class="welcome-card mb-6">
+                        <div class="welcome-icon mb-3">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="mb-2">Welcome back!</h3>
+                        <p class="mb-4">You are authenticated with Emirates ID: <strong>@userEmiratesId</strong></p>
+                        <div class="welcome-actions">
+                            <a href="/profile" class="btn btn-primary me-3">
+                                <i class="fas fa-user me-2"></i>View Profile
+                            </a>
+                            <a href="/logout" class="btn btn-outline-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="auth-section mb-8">
+                        <h3 class="mb-4">Get Started with UAE Pass</h3>
+                        <!-- UAE Pass Button - Default Image Only -->
+                        <a href="/login" class="uaepass-button" target="_self" aria-label="UAEPass Button">
+                            <img alt="UAEPass Button" src="/assets/UAEPASS_EN_White_Active.svg" class="uaepass-button__image">
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid mb-12">
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Enterprise Security</h4>
+                            <p>Built with government-grade security standards and OAuth 2.0 best practices</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h4>Quick Integration</h4>
+                            <p>Simple setup with comprehensive documentation and ready-to-use examples</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Modern .NET</h4>
+                            <p>Multi-targeting support for .NET 6.0, 7.0, 8.0, and 9.0 with clean APIs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>User Management</h4>
+                            <p>Built-in user type validation and Emirates ID verification for secure access</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h4>Easy Configuration</h4>
+                            <p>Simple appsettings.json configuration with environment-specific settings</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h4>Error Handling</h4>
+                            <p>Comprehensive error handling with correlation IDs and detailed logging</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works Section -->
+            <div class="how-it-works mb-12">
+                <div class="section-header text-center mb-8">
+                    <h2>How It Works</h2>
+                    <p class="text-muted">Simple 5-step authentication process</p>
+                </div>
+                
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h5>Click UAE Pass Button</h5>
+                            <p>User clicks the official UAE Pass authentication button</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h5>UAE Pass Authentication</h5>
+                            <p>User authenticates with Emirates ID and biometrics</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h5>Authorization Code</h5>
+                            <p>UAE Pass returns authorization code to your application</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h5>Token Exchange</h5>
+                            <p>Exchange code for access token and retrieve user profile</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">5</div>
+                        <div class="timeline-content">
+                            <h5>User Session</h5>
+                            <p>Create secure session and redirect to authenticated area</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section text-center">
+                <div class="cta-card">
+                    <h3>Ready to Get Started?</h3>
+                    <p class="mb-4">Join thousands of developers using SuperUaePass for secure authentication</p>
+                    <div class="cta-buttons">
+                        <a href="/docs" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-book me-2"></i>View Documentation
+                        </a>
+                        <a href="/about" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Hero Section */
+.hero-section {
+    padding: 3rem 0;
+}
+
+.hero-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 2rem;
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mb-12 { margin-bottom: 3rem !important; }
+.mb-8 { margin-bottom: 2rem !important; }
+.mb-6 { margin-bottom: 1.5rem !important; }
+
+/* Welcome Card */
+.welcome-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+}
+
+.welcome-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--green-500), #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.welcome-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Auth Section */
+.auth-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+}
+
+/* Features Grid */
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.2s ease;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.feature-card h4 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--gray-900);
+}
+
+.feature-card p {
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* How It Works */
+.section-header h2 {
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue-600), var(--blue-700));
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 2rem;
+}
+
+.timeline-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-md);
+}
+
+/* Timeline Content */
+.timeline-content {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+}
+
+.timeline-content h5 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gray-900);
+}
+
+.timeline-content p {
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* CTA Section */
+.cta-card {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+}
+
+.cta-card h3 {
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .timeline-container::before {
+        left: 20px;
+    }
+    
+    .timeline-item {
+        padding-left: 60px;
+    }
+    
+    .timeline-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .welcome-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Animation Delays */
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+.feature-card:nth-child(5) { animation-delay: 0.5s; }
+.feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.timeline-item:nth-child(4) { animation-delay: 0.4s; }
+.timeline-item:nth-child(5) { animation-delay: 0.5s; }
+</style>
