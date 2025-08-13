@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SuperUaePass.Services;
-using SuperUaePass.DTOs;
 using System.Text.Json;
 
 namespace SuperUaePass.Example.Web.Controllers;
