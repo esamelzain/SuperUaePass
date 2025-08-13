@@ -1,0 +1,51 @@
+{
+  "userVisits": [
+    {
+      "id": "12aacbde-c817-4731-b46e-5e9f9fb872d7",
+      "pageUrl": "https://localhost:7259/docs",
+      "pageTitle": "Documentation - SuperUaePass",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ipAddress": "::1",
+      "referrer": "https://localhost:7259/docs",
+      "timestamp": "2025-08-13T10:25:53.041Z",
+      "sessionId": "cb23da99-f4a0-5e80-92a2-fe0773d91a60",
+      "visitDuration": null
+    },
+    {
+      "id": "d9f64b60-8635-4858-942c-d4faa999d1b4",
+      "pageUrl": "https://localhost:7259/docs",
+      "pageTitle": "Documentation - SuperUaePass",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ipAddress": "::1",
+      "referrer": "https://localhost:7259/docs",
+      "timestamp": "2025-08-13T10:26:49.439Z",
+      "sessionId": "801d9b08-7e40-c310-6d91-da43a3db5c8c",
+      "visitDuration": null
+    },
+    {
+      "id": "82d6ec36-3166-4df4-9222-b5ccf95dc76b",
+      "pageUrl": "https://localhost:7259/docs",
+      "pageTitle": "Documentation - SuperUaePass",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ipAddress": "::1",
+      "referrer": "https://localhost:7259/docs",
+      "timestamp": "2025-08-13T10:29:11.039Z",
+      "sessionId": "d8d606a9-00a8-ecf0-9fac-964946d1ca36",
+      "visitDuration": null
+    }
+  ],
+  "pageFeedback": [
+    {
+      "id": "178c007c-dd15-4eed-88fb-87fbd21fa3a4",
+      "pageUrl": "https://localhost:7259/docs",
+      "pageTitle": "Documentation - SuperUaePass",
+      "wasHelpful": true,
+      "comment": "Good",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ipAddress": "::1",
+      "timestamp": "2025-08-13T10:25:59.93Z",
+      "sessionId": "57c5091b-0ec3-4304-f43a-165b7492ddd6"
+    }
+  ],
+  "lastUpdated": "2025-08-13T10:29:12.5101139Z"
+}

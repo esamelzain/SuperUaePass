@@ -2,35 +2,177 @@
     ViewData["Title"] = "Documentation";
 }
 
-<div class="docs-container">
-    <!-- Sidebar -->
-    <nav class="docs-sidebar">
+<!-- Skip to content link for accessibility -->
+<a href="#overview" class="skip-link">Skip to main content</a>
+
+<div class="docs-layout">
+    <!-- Sticky Sidebar -->
+    <aside class="docs-sidebar" id="docsSidebar">
         <div class="sidebar-header">
-            <h4>Documentation</h4>
+            <div class="sidebar-brand">
+                <i class="fas fa-shield-alt text-primary"></i>
+                <span>SuperUaePass</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        <ul class="sidebar-nav">
-            <li><a href="#overview" class="sidebar-link">Overview</a></li>
-            <li><a href="#quick-start" class="sidebar-link">Quick Start</a></li>
-            <li><a href="#configuration" class="sidebar-link">Configuration</a></li>
-            <li><a href="#environments" class="sidebar-link">Environments</a></li>
-            <li><a href="#integration-flow" class="sidebar-link">Integration Flow</a></li>
-            <li><a href="#browser-auth" class="sidebar-link">Browser Authentication</a></li>
-            <li><a href="#security" class="sidebar-link">Security</a></li>
-            <li><a href="#api-reference" class="sidebar-link">API Reference</a></li>
-        </ul>
-    </nav>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h3 class="nav-section-title">Getting Started</h3>
+                <ul class="nav-list">
+                    <li><a href="#overview" class="nav-link">Overview</a></li>
+                    <li><a href="#prerequisites" class="nav-link">Pre-requisites</a></li>
+                    <li><a href="#installation" class="nav-link">Installation</a></li>
+                    <li><a href="#quick-start" class="nav-link">Quick Start</a></li>
+                    <li><a href="#configuration" class="nav-link">Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3 class="nav-section-title">Guides</h3>
+                <ul class="nav-list">
+                    <li><a href="#authentication-flow" class="nav-link">Authentication Flow</a></li>
+                    <li><a href="#browser-auth" class="nav-link">Browser Authentication</a></li>
+                    <li><a href="#security" class="nav-link">Security</a></li>
+                    <li><a href="#error-handling" class="nav-link">Error Handling</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3 class="nav-section-title">API Reference</h3>
+                <ul class="nav-list">
+                    <li><a href="#service-interface" class="nav-link">ISuperUaePassService</a></li>
+                    <li><a href="#user-profile" class="nav-link">UaePassUserProfile</a></li>
+                    <li><a href="#token-response" class="nav-link">UaePassTokenResponse</a></li>
+                    <li><a href="#configuration-options" class="nav-link">Configuration Options</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3 class="nav-section-title">Examples</h3>
+                <ul class="nav-list">
+                    <li><a href="#basic-integration" class="nav-link">Basic Integration</a></li>
+                    <li><a href="#advanced-usage" class="nav-link">Advanced Usage</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
 
     <!-- Main Content -->
     <main class="docs-main">
         <div class="docs-content">
             <!-- Overview -->
             <section id="overview" class="docs-section">
-                <h2>Overview</h2>
-                <p>SuperUaePass is a professional .NET library for integrating UAE Pass authentication into your applications. It provides a clean, secure, and easy-to-use interface for OAuth 2.0 authentication with UAE Pass.</p>
+                <div class="section-header">
+                    <h1>Overview</h1>
+                    <p class="section-description">
+                        SuperUaePass is a professional .NET library for integrating UAE Pass authentication into your applications. 
+                        It provides a clean, secure, and easy-to-use interface for OAuth 2.0 authentication with UAE Pass.
+                    </p>
+                </div>
                 
-                <div class="alert alert-info">
-                    <strong>Official Compliance:</strong> This library is built according to the 
-                    <a href="https://docs.uaepass.ae/feature-guides/authentication/web-application" target="_blank" rel="noopener">official UAE Pass documentation</a>.
+                <div class="callout callout-info">
+                    <div class="callout-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Official Compliance:</strong> This library is built according to the 
+                        <a href="https://docs.uaepass.ae/feature-guides/authentication/web-application" target="_blank" rel="noopener">official UAE Pass documentation</a>.
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Current Scope:</strong> This package currently supports <strong>Web Authentication only</strong>. 
+                        <strong>e-Seal</strong> and <strong>Digital Signature</strong> features are coming soon.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pre-requisites -->
+            <section id="prerequisites" class="docs-section">
+                <h2>Pre-requisites</h2>
+                <p>Before integrating SuperUaePass into your application, ensure you have the following requirements:</p>
+                
+                <div class="prerequisites-list">
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>Staging Environment Account</h4>
+                            <p>Developer/Tester should have a user account created on the UAE Pass staging environment.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>UAE Pass Mobile App</h4>
+                            <p>Staging mobile app should be installed on the developer's device for testing purposes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>UAE Pass Credentials</h4>
+                            <p>Valid Client ID and Client Secret from UAE Pass service provider registration.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>Valid Redirect URI</h4>
+                            <p>A properly configured callback URL that matches your UAE Pass application settings.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Reference:</strong> For detailed pre-requisites and onboarding process, visit the 
+                        <a href="https://docs.uaepass.ae/feature-guides/authentication/web-application/pre-requisites" target="_blank" rel="noopener">official UAE Pass pre-requisites documentation</a>.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section id="installation" class="docs-section">
+                <h2>Installation</h2>
+                <p>Install SuperUaePass using your preferred package manager:</p>
+                
+                <div class="code-tabs">
+                    <div class="code-tabs-header">
+                        <button class="tab-button active" data-tab="package-manager">Package Manager</button>
+                        <button class="tab-button" data-tab="dotnet-cli">.NET CLI</button>
+                        <button class="copy-button" onclick="copyCode('install-code')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="code-tabs-content">
+                        <div class="tab-content active" id="package-manager">
+                            <pre id="install-code"><code>Install-Package SuperUaePass</code></pre>
+                        </div>
+                        <div class="tab-content" id="dotnet-cli">
+                            <pre id="install-code-cli"><code>dotnet add package SuperUaePass</code></pre>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -38,33 +180,12 @@
             <section id="quick-start" class="docs-section">
                 <h2>Quick Start</h2>
                 
-                <h3>1. Install the Package</h3>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Package Manager</span>
-                        <button class="copy-btn" onclick="copyToClipboard('install-pm')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
-                    </div>
-                    <pre id="install-pm"><code>Install-Package SuperUaePass</code></pre>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>.NET CLI</span>
-                        <button class="copy-btn" onclick="copyToClipboard('install-cli')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
-                    </div>
-                    <pre id="install-cli"><code>dotnet add package SuperUaePass</code></pre>
-                </div>
-
-                <h3>2. Configure Services</h3>
+                <h3>1. Configure Services</h3>
                 <div class="code-block">
                     <div class="code-header">
                         <span>Program.cs</span>
-                        <button class="copy-btn" onclick="copyToClipboard('program-cs')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('program-cs')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="program-cs"><code>using SuperUaePass;
@@ -78,12 +199,12 @@ var app = builder.Build();
 app.Run();</code></pre>
                 </div>
 
-                <h3>3. Add Configuration</h3>
+                <h3>2. Add Configuration</h3>
                 <div class="code-block">
                     <div class="code-header">
                         <span>appsettings.json</span>
-                        <button class="copy-btn" onclick="copyToClipboard('appsettings')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('appsettings')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="appsettings"><code>{
@@ -100,12 +221,12 @@ app.Run();</code></pre>
 }</code></pre>
                 </div>
 
-                <h3>4. Use in Controller</h3>
+                <h3>3. Use in Controller</h3>
                 <div class="code-block">
                     <div class="code-header">
                         <span>HomeController.cs</span>
-                        <button class="copy-btn" onclick="copyToClipboard('controller')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('controller')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="controller"><code>public class HomeController : Controller
@@ -138,9 +259,11 @@ app.Run();</code></pre>
 
             <!-- Configuration -->
             <section id="configuration" class="docs-section">
-                <h2>Configuration Options</h2>
-                <div class="table-responsive">
-                    <table class="table">
+                <h2>Configuration</h2>
+                <p>Configure SuperUaePass using the following options in your <code>appsettings.json</code>:</p>
+                
+                <div class="table-container">
+                    <table class="docs-table">
                         <thead>
                             <tr>
                                 <th>Property</th>
@@ -152,49 +275,49 @@ app.Run();</code></pre>
                         <tbody>
                             <tr>
                                 <td><code>BaseUrl</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td><code>https://stg-id.uaepass.ae</code></td>
                                 <td>UAE Pass base URL</td>
                             </tr>
                             <tr>
                                 <td><code>ClientId</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td>-</td>
                                 <td>Your UAE Pass client ID</td>
                             </tr>
                             <tr>
                                 <td><code>ClientSecret</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td>-</td>
                                 <td>Your UAE Pass client secret</td>
                             </tr>
                             <tr>
                                 <td><code>RedirectUri</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td>-</td>
                                 <td>Your application's callback URL</td>
                             </tr>
                             <tr>
                                 <td><code>Scope</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td><code>urn:uae:digitalid:profile:general</code></td>
                                 <td>OAuth 2.0 scope</td>
                             </tr>
                             <tr>
                                 <td><code>Environment</code></td>
-                                <td>UaePassEnvironment</td>
+                                <td><span class="type-badge">UaePassEnvironment</span></td>
                                 <td><code>Staging</code></td>
                                 <td>UAE Pass environment</td>
                             </tr>
                             <tr>
                                 <td><code>ResponseType</code></td>
-                                <td>string</td>
+                                <td><span class="type-badge">string</span></td>
                                 <td><code>code</code></td>
                                 <td>OAuth 2.0 response type</td>
                             </tr>
                             <tr>
                                 <td><code>EnableLogging</code></td>
-                                <td>bool</td>
+                                <td><span class="type-badge">bool</span></td>
                                 <td><code>false</code></td>
                                 <td>Enable detailed logging</td>
                             </tr>
@@ -203,82 +326,60 @@ app.Run();</code></pre>
                 </div>
             </section>
 
-            <!-- Environments -->
-            <section id="environments" class="docs-section">
-                <h2>UAE Pass Environments</h2>
+            <!-- Authentication Flow -->
+            <section id="authentication-flow" class="docs-section">
+                <h2>Authentication Flow</h2>
+                <p>The UAE Pass integration follows the standard OAuth 2.0 authorization code flow:</p>
                 
-                <h3>Staging Environment</h3>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Staging Configuration</span>
-                        <button class="copy-btn" onclick="copyToClipboard('staging-config')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Authorization Request</h4>
+                            <p>Redirect user to UAE Pass authorization endpoint</p>
+                        </div>
                     </div>
-                    <pre id="staging-config"><code>{
-  "SuperUaePass": {
-    "BaseUrl": "https://stg-id.uaepass.ae",
-    "Environment": "Staging"
-  }
-}</code></pre>
-                </div>
-                <p><strong>Purpose:</strong> For development and testing</p>
-
-                <h3>Production Environment</h3>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Production Configuration</span>
-                        <button class="copy-btn" onclick="copyToClipboard('production-config')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>User Authentication</h4>
+                            <p>User authenticates with Emirates ID</p>
+                        </div>
                     </div>
-                    <pre id="production-config"><code>{
-  "SuperUaePass": {
-    "BaseUrl": "https://id.uaepass.ae",
-    "Environment": "Production"
-  }
-}</code></pre>
-                </div>
-                <p><strong>Purpose:</strong> For live applications</p>
-            </section>
-
-            <!-- Integration Flow -->
-            <section id="integration-flow" class="docs-section">
-                <h2>UAE Pass Integration Flow</h2>
-                <ol>
-                    <li><strong>Authorization Request:</strong> Redirect user to UAE Pass authorization endpoint</li>
-                    <li><strong>User Authentication:</strong> User authenticates with Emirates ID</li>
-                    <li><strong>Authorization Code:</strong> UAE Pass returns authorization code to your callback</li>
-                    <li><strong>Token Exchange:</strong> Exchange authorization code for access token</li>
-                    <li><strong>User Profile:</strong> Retrieve user information using access token</li>
-                    <li><strong>Session Management:</strong> Create user session in your application</li>
-                </ol>
-
-                <h3>Endpoints</h3>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>UAE Pass Endpoints</span>
-                        <button class="copy-btn" onclick="copyToClipboard('endpoints')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Authorization Code</h4>
+                            <p>UAE Pass returns authorization code to your callback</p>
+                        </div>
                     </div>
-                    <pre id="endpoints"><code>Authorization: /idshub/authorize
-Token Exchange: /idshub/token
-User Info: /idshub/userinfo
-Logout: /idshub/logout</code></pre>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Token Exchange</h4>
+                            <p>Exchange authorization code for access token</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>User Profile</h4>
+                            <p>Retrieve user information using access token</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- Browser Authentication -->
             <section id="browser-auth" class="docs-section">
-                <h2>Browser-Based Authentication Flow</h2>
+                <h2>Browser-Based Authentication</h2>
                 <p>For browser-based authentication, the client secret is typically skipped, and the authorization endpoint includes specific parameters:</p>
 
                 <div class="code-block">
                     <div class="code-header">
                         <span>Authorization URL Example</span>
-                        <button class="copy-btn" onclick="copyToClipboard('auth-url')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('auth-url')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="auth-url"><code>https://stg-id.uaepass.ae/idshub/authorize?
@@ -290,12 +391,19 @@ redirect_uri=https://stg-selfcare.uaepass.ae&
 acr_values=urn:safelayer:tws:policies:authentication:level:low</code></pre>
                 </div>
 
-                <h3>Important Notes</h3>
-                <ul>
-                    <li><code>acr_values</code> parameter is required for authentication level</li>
-                    <li>Parameters should NOT be URL-encoded</li>
-                    <li><code>nonce</code> parameter is optional</li>
-                </ul>
+                <div class="callout callout-warning">
+                    <div class="callout-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Important Notes:</strong>
+                        <ul>
+                            <li><code>acr_values</code> parameter is required for authentication level</li>
+                            <li>Parameters should NOT be URL-encoded</li>
+                            <li><code>nonce</code> parameter is optional</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             <!-- Security -->
@@ -307,8 +415,8 @@ acr_values=urn:safelayer:tws:policies:authentication:level:low</code></pre>
                 <div class="code-block">
                     <div class="code-header">
                         <span>State Parameter Example</span>
-                        <button class="copy-btn" onclick="copyToClipboard('state-example')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('state-example')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="state-example"><code>var state = Guid.NewGuid().ToString();
@@ -322,8 +430,8 @@ var authUrl = _uaePassService.GenerateAuthorizationUrl(state);</code></pre>
                 <div class="code-block">
                     <div class="code-header">
                         <span>User Type Validation</span>
-                        <button class="copy-btn" onclick="copyToClipboard('user-validation')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('user-validation')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="user-validation"><code>var supportedTypes = new[] { "SOP1", "SOP2", "SOP3" };
@@ -332,14 +440,17 @@ if (!_uaePassService.IsUserTypeSupported(userProfile.UserType, supportedTypes))
     return BadRequest("User type not supported");
 }</code></pre>
                 </div>
+            </section>
 
-                <h3>Error Handling</h3>
+            <!-- Error Handling -->
+            <section id="error-handling" class="docs-section">
+                <h2>Error Handling</h2>
                 <p>Implement proper error handling with correlation IDs:</p>
                 <div class="code-block">
                     <div class="code-header">
                         <span>Error Handling Example</span>
-                        <button class="copy-btn" onclick="copyToClipboard('error-handling')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('error-handling')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="error-handling"><code>try
@@ -355,63 +466,53 @@ catch (Exception ex)
                 </div>
             </section>
 
-            <!-- API Reference -->
-            <section id="api-reference" class="docs-section">
-                <h2>API Reference</h2>
+            <!-- Service Interface -->
+            <section id="service-interface" class="docs-section">
+                <h2>ISuperUaePassService</h2>
                 
-                <h3>ISuperUaePassService</h3>
-                
-                <h4>GenerateAuthorizationUrl</h4>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Method Signature</span>
-                        <button class="copy-btn" onclick="copyToClipboard('auth-method')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                <div class="api-method">
+                    <h3>GenerateAuthorizationUrl</h3>
+                    <div class="method-signature">
+                        <code>string GenerateAuthorizationUrl(string state, string? nonce = null, string? prompt = null, string? uiLocales = null)</code>
                     </div>
-                    <pre id="auth-method"><code>string GenerateAuthorizationUrl(string state, string? nonce = null, string? prompt = null, string? uiLocales = null)</code></pre>
+                    <p>Generates the UAE Pass authorization URL with the specified parameters.</p>
                 </div>
 
-                <h4>ExchangeCodeForTokenAsync</h4>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Method Signature</span>
-                        <button class="copy-btn" onclick="copyToClipboard('token-method')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                <div class="api-method">
+                    <h3>ExchangeCodeForTokenAsync</h3>
+                    <div class="method-signature">
+                        <code>Task&lt;UaePassTokenResponse&gt; ExchangeCodeForTokenAsync(string code)</code>
                     </div>
-                    <pre id="token-method"><code>Task<UaePassTokenResponse> ExchangeCodeForTokenAsync(string code)</code></pre>
+                    <p>Exchanges the authorization code for an access token.</p>
                 </div>
 
-                <h4>GetUserProfileAsync</h4>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Method Signature</span>
-                        <button class="copy-btn" onclick="copyToClipboard('profile-method')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                <div class="api-method">
+                    <h3>GetUserProfileAsync</h3>
+                    <div class="method-signature">
+                        <code>Task&lt;UaePassUserProfile&gt; GetUserProfileAsync(string accessToken)</code>
                     </div>
-                    <pre id="profile-method"><code>Task<UaePassUserProfile> GetUserProfileAsync(string accessToken)</code></pre>
+                    <p>Retrieves the user profile using the access token.</p>
                 </div>
 
-                <h4>GenerateLogoutUrl</h4>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Method Signature</span>
-                        <button class="copy-btn" onclick="copyToClipboard('logout-method')">
-                            <i class="fas fa-copy"></i> Copy
-                        </button>
+                <div class="api-method">
+                    <h3>GenerateLogoutUrl</h3>
+                    <div class="method-signature">
+                        <code>string GenerateLogoutUrl(string? redirectUri = null)</code>
                     </div>
-                    <pre id="logout-method"><code>string GenerateLogoutUrl(string? redirectUri = null)</code></pre>
+                    <p>Generates the UAE Pass logout URL.</p>
                 </div>
+            </section>
 
-                <h3>UaePassUserProfile DTO</h3>
+            <!-- User Profile -->
+            <section id="user-profile" class="docs-section">
+                <h2>UaePassUserProfile</h2>
                 <p>The user profile contains the following properties from the UAE Pass response:</p>
+                
                 <div class="code-block">
                     <div class="code-header">
                         <span>User Profile Properties</span>
-                        <button class="copy-btn" onclick="copyToClipboard('profile-properties')">
-                            <i class="fas fa-copy"></i> Copy
+                        <button class="copy-button" onclick="copyCode('profile-properties')">
+                            <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <pre id="profile-properties"><code>public class UaePassUserProfile
@@ -449,391 +550,277 @@ catch (Exception ex)
 }</code></pre>
                 </div>
             </section>
+
+            <!-- Token Response -->
+            <section id="token-response" class="docs-section">
+                <h2>UaePassTokenResponse</h2>
+                <p>The token response contains the OAuth 2.0 tokens returned by UAE Pass:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Token Response Properties</span>
+                        <button class="copy-button" onclick="copyCode('token-properties')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="token-properties"><code>public class UaePassTokenResponse
+{
+    public string? AccessToken { get; set; }
+    public string? TokenType { get; set; }
+    public int? ExpiresIn { get; set; }
+    public string? RefreshToken { get; set; }
+    public string? Scope { get; set; }
+    public string? IdToken { get; set; }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Configuration Options -->
+            <section id="configuration-options" class="docs-section">
+                <h2>Configuration Options</h2>
+                <p>Detailed configuration options for the SuperUaePass library:</p>
+                
+                <div class="table-container">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>BaseUrl</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="required-badge">Yes</span></td>
+                                <td>UAE Pass base URL (staging or production)</td>
+                            </tr>
+                            <tr>
+                                <td><code>ClientId</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="required-badge">Yes</span></td>
+                                <td>Your UAE Pass client ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>ClientSecret</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="required-badge">Yes</span></td>
+                                <td>Your UAE Pass client secret</td>
+                            </tr>
+                            <tr>
+                                <td><code>RedirectUri</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="required-badge">Yes</span></td>
+                                <td>Your application's callback URL</td>
+                            </tr>
+                            <tr>
+                                <td><code>Scope</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="optional-badge">No</span></td>
+                                <td>OAuth 2.0 scope (default: urn:uae:digitalid:profile:general)</td>
+                            </tr>
+                            <tr>
+                                <td><code>Environment</code></td>
+                                <td><span class="type-badge">UaePassEnvironment</span></td>
+                                <td><span class="optional-badge">No</span></td>
+                                <td>UAE Pass environment (default: Staging)</td>
+                            </tr>
+                            <tr>
+                                <td><code>ResponseType</code></td>
+                                <td><span class="type-badge">string</span></td>
+                                <td><span class="optional-badge">No</span></td>
+                                <td>OAuth 2.0 response type (default: code)</td>
+                            </tr>
+                            <tr>
+                                <td><code>EnableLogging</code></td>
+                                <td><span class="type-badge">bool</span></td>
+                                <td><span class="optional-badge">No</span></td>
+                                <td>Enable detailed logging (default: false)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Basic Integration -->
+            <section id="basic-integration" class="docs-section">
+                <h2>Basic Integration</h2>
+                <p>A complete example of integrating UAE Pass authentication in an ASP.NET Core application:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Complete Integration Example</span>
+                        <button class="copy-button" onclick="copyCode('complete-integration')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="complete-integration"><code>// Program.cs
+using SuperUaePass;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add UAE Pass services
+builder.Services.AddSuperUaePass(builder.Configuration);
+
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+var app = builder.Build();
+
+app.UseSession();
+app.MapControllers();
+app.Run();
+
+// AuthController.cs
+public class AuthController : Controller
+{
+    private readonly ISuperUaePassService _uaePassService;
+    private readonly ILogger<AuthController> _logger;
+
+    public AuthController(ISuperUaePassService uaePassService, ILogger<AuthController> logger)
+    {
+        _uaePassService = uaePassService;
+        _logger = logger;
+    }
+
+    public IActionResult Login()
+    {
+        var state = Guid.NewGuid().ToString();
+        HttpContext.Session.SetString("UaePassState", state);
+        
+        var authUrl = _uaePassService.GenerateAuthorizationUrl(state);
+        return Redirect(authUrl);
+    }
+
+    public async Task<IActionResult> Callback(string code, string state)
+    {
+        try
+        {
+            // Validate state parameter
+            var storedState = HttpContext.Session.GetString("UaePassState");
+            if (string.IsNullOrEmpty(storedState) || storedState != state)
+            {
+                return BadRequest("Invalid state parameter");
+            }
+
+            // Exchange code for token
+            var tokenResponse = await _uaePassService.ExchangeCodeForTokenAsync(code);
+            
+            // Get user profile
+            var userProfile = await _uaePassService.GetUserProfileAsync(tokenResponse.AccessToken);
+            
+            // Store user information in session
+            HttpContext.Session.SetString("IsAuthenticated", "true");
+            HttpContext.Session.SetString("UserProfile", JsonSerializer.Serialize(userProfile));
+            
+            return RedirectToAction("Profile", "Home");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "UAE Pass authentication failed");
+            return RedirectToAction("Error", "Home", new { error = "Authentication failed" });
+        }
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        var logoutUrl = _uaePassService.GenerateLogoutUrl();
+        return Redirect(logoutUrl);
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Advanced Usage -->
+            <section id="advanced-usage" class="docs-section">
+                <h2>Advanced Usage</h2>
+                <p>Advanced features and best practices for UAE Pass integration:</p>
+                
+                <h3>Custom Authorization Parameters</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Custom Authorization</span>
+                        <button class="copy-button" onclick="copyCode('custom-auth')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="custom-auth"><code>// Generate authorization URL with custom parameters
+var state = Guid.NewGuid().ToString();
+var nonce = Guid.NewGuid().ToString();
+
+var authUrl = _uaePassService.GenerateAuthorizationUrl(
+    state: state,
+    nonce: nonce,
+    prompt: "login",
+    uiLocales: "en"
+);
+
+// Store nonce for validation
+HttpContext.Session.SetString("UaePassNonce", nonce);</code></pre>
+                </div>
+
+                <h3>User Type Validation</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>User Type Validation</span>
+                        <button class="copy-button" onclick="copyCode('user-type-validation')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="user-type-validation"><code>// Validate user type after authentication
+var supportedUserTypes = new[] { "SOP1", "SOP2", "SOP3" };
+
+if (!supportedUserTypes.Contains(userProfile.UserType))
+{
+    _logger.LogWarning("Unsupported user type: {UserType}", userProfile.UserType);
+    return BadRequest("User type not supported");
+}
+
+// Check authentication level
+if (userProfile.Acr != "urn:safelayer:tws:policies:authentication:level:low")
+{
+    _logger.LogWarning("Insufficient authentication level: {Acr}", userProfile.Acr);
+    return BadRequest("Insufficient authentication level");
+}</code></pre>
+                </div>
+            </section>
         </div>
+
+
     </main>
 </div>
 
-<style>
-/* Documentation Layout */
-.docs-container {
-    display: flex;
-    min-height: calc(100vh - 200px);
-    margin-top: 2rem;
-}
+<!-- Feedback Widget -->
+<div class="feedback-widget" id="feedbackWidget">
+    <div class="feedback-content">
+        <h4>Was this helpful?</h4>
+        <div class="feedback-buttons">
+            <button class="feedback-btn" data-feedback="positive">
+                <i class="fas fa-thumbs-up"></i>
+                Yes
+            </button>
+            <button class="feedback-btn" data-feedback="negative">
+                <i class="fas fa-thumbs-down"></i>
+                No
+            </button>
+        </div>
+        <div class="feedback-form" id="feedbackForm" style="display: none;">
+            <textarea placeholder="Tell us more..." rows="3"></textarea>
+            <button class="feedback-submit">Submit</button>
+        </div>
+    </div>
+</div>
 
-/* Sidebar */
-.docs-sidebar {
-    width: 280px;
-    background: white;
-    border-right: 1px solid var(--gray-200);
-    padding: 2rem 0;
-    position: sticky;
-    top: 100px;
-    height: calc(100vh - 200px);
-    overflow-y: auto;
-    flex-shrink: 0;
-}
 
-.sidebar-header {
-    padding: 0 2rem 1rem;
-    border-bottom: 1px solid var(--gray-200);
-    margin-bottom: 1rem;
-}
 
-.sidebar-header h4 {
-    margin: 0;
-    color: var(--gray-900);
-    font-weight: 600;
+@section Scripts {
+    <script src="~/js/docs.js" asp-append-version="true"></script>
 }
-
-.sidebar-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-nav li {
-    margin: 0;
-}
-
-.sidebar-link {
-    display: block;
-    padding: 0.75rem 2rem;
-    color: var(--gray-600);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border-left: 3px solid transparent;
-}
-
-.sidebar-link:hover {
-    color: var(--blue-600);
-    background: var(--blue-50);
-    border-left-color: var(--blue-600);
-}
-
-.sidebar-link.active {
-    color: var(--blue-600);
-    background: var(--blue-50);
-    border-left-color: var(--blue-600);
-    font-weight: 500;
-}
-
-/* Main Content */
-.docs-main {
-    flex: 1;
-    padding: 0 3rem 3rem;
-    max-width: calc(100% - 280px);
-}
-
-.docs-content {
-    max-width: 800px;
-}
-
-.docs-section {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.docs-section:last-child {
-    border-bottom: none;
-}
-
-.docs-section h2 {
-    color: var(--gray-900);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    padding-top: 2rem;
-    margin-top: -2rem;
-}
-
-.docs-section h3 {
-    color: var(--gray-800);
-    font-weight: 600;
-    margin: 2rem 0 1rem;
-}
-
-.docs-section h4 {
-    color: var(--gray-800);
-    font-weight: 600;
-    margin: 1.5rem 0 0.75rem;
-}
-
-.docs-section p {
-    color: var(--gray-600);
-    line-height: 1.7;
-    margin-bottom: 1rem;
-}
-
-.docs-section ul, .docs-section ol {
-    color: var(--gray-600);
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-}
-
-.docs-section li {
-    margin-bottom: 0.5rem;
-}
-
-/* Code Blocks */
-.code-block {
-    background: white;
-    border: 1px solid var(--gray-200);
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-}
-
-.code-header {
-    background: var(--gray-50);
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--gray-700);
-}
-
-.copy-btn {
-    background: var(--blue-600);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.copy-btn:hover {
-    background: var(--blue-700);
-    transform: translateY(-1px);
-}
-
-.copy-btn i {
-    font-size: 0.75rem;
-}
-
-.code-block pre {
-    margin: 0;
-    padding: 1.5rem;
-    background: var(--gray-900);
-    color: var(--gray-100);
-    overflow-x: auto;
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    line-height: 1.5;
-}
-
-.code-block code {
-    background: none;
-    color: inherit;
-    padding: 0;
-    border-radius: 0;
-}
-
-/* Tables */
-.table-responsive {
-    overflow-x: auto;
-    margin: 1.5rem 0;
-}
-
-.table {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-}
-
-.table thead th {
-    background: var(--gray-50);
-    color: var(--gray-700);
-    font-weight: 600;
-    padding: 1rem;
-    border: none;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.table tbody td {
-    padding: 1rem;
-    border: none;
-    border-bottom: 1px solid var(--gray-100);
-    color: var(--gray-600);
-}
-
-.table tbody tr:hover {
-    background: var(--gray-50);
-}
-
-.table code {
-    background: var(--gray-100);
-    color: var(--gray-800);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-}
-
-/* Alerts */
-.alert {
-    border: none;
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    margin: 1.5rem 0;
-    font-weight: 500;
-}
-
-.alert-info {
-    background: var(--blue-50);
-    color: var(--blue-700);
-    border-left: 4px solid var(--blue-600);
-}
-
-.alert a {
-    color: inherit;
-    text-decoration: underline;
-}
-
-.alert a:hover {
-    text-decoration: none;
-}
-
-/* Responsive Design */
-@@media (max-width: 1024px) {
-    .docs-container {
-        flex-direction: column;
-    }
-    
-    .docs-sidebar {
-        width: 100%;
-        position: static;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--gray-200);
-        padding: 1rem 0;
-    }
-    
-    .docs-main {
-        max-width: 100%;
-        padding: 2rem 1rem;
-    }
-    
-    .sidebar-nav {
-        display: flex;
-        overflow-x: auto;
-        padding: 0 1rem;
-    }
-    
-    .sidebar-nav li {
-        flex-shrink: 0;
-    }
-    
-    .sidebar-link {
-        padding: 0.5rem 1rem;
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        white-space: nowrap;
-    }
-    
-    .sidebar-link:hover,
-    .sidebar-link.active {
-        border-left-color: transparent;
-        border-bottom-color: var(--blue-600);
-    }
-}
-
-@@media (max-width: 768px) {
-    .docs-main {
-        padding: 1rem;
-    }
-    
-    .code-block pre {
-        padding: 1rem;
-        font-size: 0.8rem;
-    }
-    
-    .code-header {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-    
-    .copy-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
-}
-</style>
-
-<script>
-// Copy to clipboard functionality
-function copyToClipboard(elementId) {
-    const element = document.getElementById(elementId);
-    const text = element.textContent;
-    
-    navigator.clipboard.writeText(text).then(function() {
-        // Show success feedback
-        const button = element.parentElement.querySelector('.copy-btn');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        button.style.background = 'var(--green-500)';
-        
-        setTimeout(() => {
-            button.innerHTML = originalText;
-            button.style.background = 'var(--blue-600)';
-        }, 2000);
-    }).catch(function(err) {
-        console.error('Failed to copy text: ', err);
-    });
-}
-
-// Smooth scrolling for anchor links
-document.addEventListener('DOMContentLoaded', function() {
-    const links = document.querySelectorAll('.sidebar-link');
-    
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-    
-    // Highlight active section based on scroll position
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('.docs-section');
-        const navLinks = document.querySelectorAll('.sidebar-link');
-        
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (window.pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
-    });
-});
-</script>

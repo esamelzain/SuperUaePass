@@ -1,0 +1,223 @@
+@{
+    ViewData["Title"] = "Analytics";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Documentation Analytics</h1>
+            <p class="text-muted">View user engagement and feedback data for the documentation pages.</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Visits</h5>
+                    <h2 class="card-text" id="totalVisits">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Feedback</h5>
+                    <h2 class="card-text" id="totalFeedback">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Helpful Feedback</h5>
+                    <h2 class="card-text text-success" id="helpfulFeedback">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Not Helpful</h5>
+                    <h2 class="card-text text-danger" id="notHelpfulFeedback">-</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Tables -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Page Visits</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Time</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="visitsTable">
+                                <tr>
+                                    <td colspan="3" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Feedback</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Helpful</th>
+                                    <th>Comment</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feedbackTable">
+                                <tr>
+                                    <td colspan="4" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raw Data Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Raw Data</h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="downloadData()">
+                        <i class="fas fa-download"></i> Download JSON
+                    </button>
+                </div>
+                <div class="card-body">
+                    <pre id="rawData" class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Load analytics data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnalyticsData();
+        });
+
+        function loadAnalyticsData() {
+            // Load stats
+            fetch('/api/DataCollection/stats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalVisits').textContent = data.totalVisits;
+                    document.getElementById('totalFeedback').textContent = data.totalFeedback;
+                    document.getElementById('helpfulFeedback').textContent = data.helpfulFeedback;
+                    document.getElementById('notHelpfulFeedback').textContent = data.notHelpfulFeedback;
+                })
+                .catch(error => {
+                    console.error('Error loading stats:', error);
+                });
+
+            // Load raw data using the API
+            fetch('/api/DataCollection/raw-data')
+                .then(response => response.json())
+                .then(data => {
+                    displayRawData(data);
+                    displayVisitsTable(data.userVisits);
+                    displayFeedbackTable(data.pageFeedback);
+                })
+                .catch(error => {
+                    console.error('Error loading raw data:', error);
+                    document.getElementById('rawData').textContent = 'Error loading data: ' + error.message;
+                });
+        }
+
+        function displayRawData(data) {
+            document.getElementById('rawData').textContent = JSON.stringify(data, null, 2);
+        }
+
+        function displayVisitsTable(visits) {
+            const tbody = document.getElementById('visitsTable');
+            if (visits.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center">No visits recorded</td></tr>';
+                return;
+            }
+
+            const recentVisits = visits.slice(-10).reverse(); // Show last 10 visits
+            tbody.innerHTML = recentVisits.map(visit => `
+                <tr>
+                    <td>${visit.pageTitle || visit.pageUrl}</td>
+                    <td>${new Date(visit.timestamp).toLocaleString()}</td>
+                    <td>${visit.ipAddress}</td>
+                </tr>
+            `).join('');
+        }
+
+        function displayFeedbackTable(feedback) {
+            const tbody = document.getElementById('feedbackTable');
+            if (feedback.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No feedback recorded</td></tr>';
+                return;
+            }
+
+            const recentFeedback = feedback.slice(-10).reverse(); // Show last 10 feedback
+            tbody.innerHTML = recentFeedback.map(f => `
+                <tr>
+                    <td>${f.pageTitle || f.pageUrl}</td>
+                    <td>
+                        <span class="badge ${f.wasHelpful ? 'bg-success' : 'bg-danger'}">
+                            ${f.wasHelpful ? 'Yes' : 'No'}
+                        </span>
+                    </td>
+                    <td>${f.comment || '-'}</td>
+                    <td>${new Date(f.timestamp).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        function downloadData() {
+            fetch('/api/DataCollection/raw-data')
+                .then(response => response.json())
+                .then(data => {
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'user-data-' + new Date().toISOString().split('T')[0] + '.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                })
+                .catch(error => {
+                    console.error('Error downloading data:', error);
+                    alert('Error downloading data');
+                });
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadAnalyticsData, 30000);
+    </script>
+}

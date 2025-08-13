@@ -248,4 +248,10 @@ public class HomeController : Controller
     {
         return View();
     }
+
+    [HttpGet("analytics")]
+    public IActionResult Analytics()
+    {
+        return View();
+    }
 }
