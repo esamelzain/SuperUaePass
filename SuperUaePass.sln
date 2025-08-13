@@ -5,7 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperUaePass", "src\SuperUaePass\SuperUaePass.csproj", "{9DD8145E-3943-49E0-8BDF-03C195193C24}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperUaePass.Example.Web", "src\SuperUaePass.Example.Web\SuperUaePass.Example.Web.csproj", "{5DC26070-D807-4C60-8715-F5B464791431}"
 EndProject
 Global
@@ -18,6 +19,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|x64.Build.0 = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Debug|x86.Build.0 = Debug|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|x64.ActiveCfg = Release|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|x64.Build.0 = Release|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|x86.ActiveCfg = Release|Any CPU
+		{9DD8145E-3943-49E0-8BDF-03C195193C24}.Release|x86.Build.0 = Release|Any CPU
 		{5DC26070-D807-4C60-8715-F5B464791431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DC26070-D807-4C60-8715-F5B464791431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DC26070-D807-4C60-8715-F5B464791431}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -35,6 +48,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{9DD8145E-3943-49E0-8BDF-03C195193C24} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{5DC26070-D807-4C60-8715-F5B464791431} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
