@@ -48,16 +48,16 @@
                     <li><a href="#token-response" class="nav-link">UaePassTokenResponse</a></li>
                     <li><a href="#configuration-options" class="nav-link">Configuration Options</a></li>
                 </ul>
-            </div>
+        </div>
             
             <div class="nav-section">
                 <h3 class="nav-section-title">Examples</h3>
                 <ul class="nav-list">
                     <li><a href="#basic-integration" class="nav-link">Basic Integration</a></li>
                     <li><a href="#advanced-usage" class="nav-link">Advanced Usage</a></li>
-                </ul>
+        </ul>
             </div>
-        </nav>
+    </nav>
     </aside>
 
     <!-- Main Content -->
@@ -78,8 +78,8 @@
                         <i class="fas fa-info-circle"></i>
                     </div>
                     <div class="callout-content">
-                        <strong>Official Compliance:</strong> This library is built according to the 
-                        <a href="https://docs.uaepass.ae/feature-guides/authentication/web-application" target="_blank" rel="noopener">official UAE Pass documentation</a>.
+                    <strong>Official Compliance:</strong> This library is built according to the 
+                    <a href="https://docs.uaepass.ae/feature-guides/authentication/web-application" target="_blank" rel="noopener">official UAE Pass documentation</a>.
                     </div>
                 </div>
 
@@ -358,14 +358,14 @@ app.Run();</code></pre>
                         <div class="step-content">
                             <h4>Token Exchange</h4>
                             <p>Exchange authorization code for access token</p>
-                        </div>
+                </div>
                     </div>
                     <div class="flow-step">
                         <div class="step-number">5</div>
                         <div class="step-content">
                             <h4>User Profile</h4>
                             <p>Retrieve user information using access token</p>
-                        </div>
+                </div>
                     </div>
                 </div>
             </section>
@@ -397,11 +397,11 @@ acr_values=urn:safelayer:tws:policies:authentication:level:low</code></pre>
                     </div>
                     <div class="callout-content">
                         <strong>Important Notes:</strong>
-                        <ul>
-                            <li><code>acr_values</code> parameter is required for authentication level</li>
-                            <li>Parameters should NOT be URL-encoded</li>
-                            <li><code>nonce</code> parameter is optional</li>
-                        </ul>
+                <ul>
+                    <li><code>acr_values</code> parameter is required for authentication level</li>
+                    <li>Parameters should NOT be URL-encoded</li>
+                    <li><code>nonce</code> parameter is optional</li>
+                </ul>
                     </div>
                 </div>
             </section>
@@ -562,7 +562,7 @@ catch (Exception ex)
                         <button class="copy-button" onclick="copyCode('token-properties')">
                             <i class="fas fa-copy"></i>
                         </button>
-                    </div>
+        </div>
                     <pre id="token-properties"><code>public class UaePassTokenResponse
 {
     public string? AccessToken { get; set; }
@@ -572,7 +572,7 @@ catch (Exception ex)
     public string? Scope { get; set; }
     public string? IdToken { get; set; }
 }</code></pre>
-                </div>
+</div>
             </section>
 
             <!-- Configuration Options -->
