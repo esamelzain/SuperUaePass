@@ -1,0 +1,59 @@
+name: Version Bump
+
+on:
+  push:
+    branches: [ master, main ]
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/version-bump.yml'
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Get current version
+      id: get-version
+      run: |
+        $version = dotnet list package --format json | ConvertFrom-Json | Where-Object { $_.PackageId -eq "SuperUaePass" } | Select-Object -ExpandProperty Version
+        if (-not $version) {
+          $version = "1.0.0"
+        }
+        echo "current_version=$version" >> $env:GITHUB_OUTPUT
+        
+    - name: Calculate new version
+      id: new-version
+      run: |
+        $current = "${{ steps.get-version.outputs.current_version }}"
+        $parts = $current.Split('.')
+        $major = [int]$parts[0]
+        $minor = [int]$parts[1]
+        $patch = [int]$parts[2]
+        $newPatch = $patch + 1
+        $newVersion = "$major.$minor.$newPatch"
+        echo "new_version=$newVersion" >> $env:GITHUB_OUTPUT
+        
+    - name: Update version in csproj
+      run: |
+        $content = Get-Content "src/SuperUaePass/SuperUaePass.csproj" -Raw
+        $content = $content -replace '<Version>.*?</Version>', "<Version>${{ steps.new-version.outputs.new_version }}</Version>"
+        Set-Content "src/SuperUaePass/SuperUaePass.csproj" $content
+        
+    - name: Commit and push version bump
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add src/SuperUaePass/SuperUaePass.csproj
+        git commit -m "Bump version to ${{ steps.new-version.outputs.new_version }} [skip ci]"
+        git push

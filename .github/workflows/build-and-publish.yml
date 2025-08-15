@@ -1,0 +1,117 @@
+name: Build and Publish to NuGet
+
+on:
+  push:
+    branches: [ master, main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ master, main ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  NUGET_PACKAGE_NAME: 'SuperUaePass'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore src/SuperUaePass/SuperUaePass.csproj
+      
+    - name: Build
+      run: dotnet build src/SuperUaePass/SuperUaePass.csproj --no-restore --configuration Release
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+      
+    - name: Pack
+      run: dotnet pack src/SuperUaePass/SuperUaePass.csproj --no-build --configuration Release --output ./nupkgs
+      
+    - name: Upload package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ./nupkgs/*.nupkg
+        retention-days: 30
+
+  publish-to-nuget:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Download package artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-package
+        path: ./nupkgs
+        
+    - name: Publish to NuGet
+      run: dotnet nuget push "./nupkgs/${{ env.NUGET_PACKAGE_NAME }}.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  create-release:
+    needs: publish-to-nuget
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## What's New in ${{ github.ref }}
+          
+          ### Enhanced Documentation
+          - Comprehensive prerequisites for UAE Pass integration
+          - Multiple usage examples (configuration-based, hardcoded, custom sections)
+          - Complete Program.cs examples with session configuration
+          - Troubleshooting guide with common issues and solutions
+          - Security best practices and considerations
+          
+          ### Features
+          - Support for all .NET versions (6.0, 7.0, 8.0, 9.0)
+          - OAuth 2.0 authentication with UAE Pass
+          - User profile retrieval and validation
+          - Proxy support for enterprise environments
+          - Comprehensive error handling
+          
+          ### Installation
+          ```bash
+          dotnet add package SuperUaePass
+          ```
+          
+          ### Quick Start
+          ```csharp
+          // Program.cs
+          builder.Services.AddSuperUaePass(builder.Configuration);
+          ```
+          
+          For detailed documentation, visit the [GitHub repository](https://github.com/esamelzain/SuperUaePass).
+        draft: false
+        prerelease: false
