@@ -37,6 +37,7 @@
                     <li><a href="#browser-auth" class="nav-link">Browser Authentication</a></li>
                     <li><a href="#security" class="nav-link">Security</a></li>
                     <li><a href="#error-handling" class="nav-link">Error Handling</a></li>
+                    <li><a href="#troubleshooting" class="nav-link">Troubleshooting</a></li>
                 </ul>
             </div>
             
@@ -105,18 +106,12 @@
                             <i class="fas fa-user-check"></i>
                         </div>
                         <div class="prerequisite-content">
-                            <h4>Staging Environment Account</h4>
-                            <p>Developer/Tester should have a user account created on the UAE Pass staging environment.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="prerequisite-item">
-                        <div class="prerequisite-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="prerequisite-content">
-                            <h4>UAE Pass Mobile App</h4>
-                            <p>Staging mobile app should be installed on the developer's device for testing purposes.</p>
+                            <h4>UAE Pass Developer Account</h4>
+                            <ul>
+                                <li>Staging Environment Account: Developer/Tester should have a user account created on the UAE Pass staging environment</li>
+                                <li>UAE Pass Mobile App: Staging mobile app should be installed on the developer's device for testing purposes</li>
+                                <li>Emirates ID: Valid Emirates ID for testing authentication flow</li>
+                            </ul>
                         </div>
                     </div>
                     
@@ -125,18 +120,55 @@
                             <i class="fas fa-key"></i>
                         </div>
                         <div class="prerequisite-content">
-                            <h4>UAE Pass Credentials</h4>
-                            <p>Valid Client ID and Client Secret from UAE Pass service provider registration.</p>
+                            <h4>UAE Pass Application Registration</h4>
+                            <ul>
+                                <li>Client ID and Secret: Valid credentials from UAE Pass service provider registration</li>
+                                <li>Redirect URI: Properly configured callback URL that matches your UAE Pass application settings</li>
+                                <li>Application Assessment: Complete UAE Pass application assessment for production access</li>
+                            </ul>
                         </div>
                     </div>
                     
                     <div class="prerequisite-item">
                         <div class="prerequisite-icon">
-                            <i class="fas fa-globe"></i>
+                            <i class="fas fa-cogs"></i>
                         </div>
                         <div class="prerequisite-content">
-                            <h4>Valid Redirect URI</h4>
-                            <p>A properly configured callback URL that matches your UAE Pass application settings.</p>
+                            <h4>Technical Requirements</h4>
+                            <ul>
+                                <li>.NET 6.0+: Minimum .NET version required</li>
+                                <li>HTTPS: Required for production environments</li>
+                                <li>Session Support: For state parameter validation and CSRF protection</li>
+                                <li>HTTP Client: For making API calls to UAE Pass endpoints</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>Network Requirements</h4>
+                            <ul>
+                                <li>Internet Access: Required to connect to UAE Pass APIs</li>
+                                <li>Proxy Configuration: If behind corporate firewall (optional)</li>
+                                <li>DNS Resolution: Ability to resolve UAE Pass domain names</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="prerequisite-item">
+                        <div class="prerequisite-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="prerequisite-content">
+                            <h4>Development Environment</h4>
+                            <ul>
+                                <li>Visual Studio 2022 or VS Code: For development</li>
+                                <li>UAE Pass Staging Environment: For testing and development</li>
+                                <li>Valid Test Data: Emirates ID and user credentials for testing</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -180,7 +212,9 @@
             <section id="quick-start" class="docs-section">
                 <h2>Quick Start</h2>
                 
-                <h3>1. Configure Services</h3>
+                <h3>Method 1: Configuration-Based Setup (Recommended)</h3>
+                
+                <h4>1. Configure Services with appsettings.json</h4>
                 <div class="code-block">
                     <div class="code-header">
                         <span>Program.cs</span>
@@ -188,18 +222,33 @@
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
-                    <pre id="program-cs"><code>using SuperUaePass;
+                    <pre id="program-cs"><code>using SuperUaePass.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add UAE Pass services
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add session support (REQUIRED for state parameter validation)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Configure SuperUaePass services using configuration
 builder.Services.AddSuperUaePass(builder.Configuration);
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseSession();
+app.MapControllers();
 app.Run();</code></pre>
                 </div>
 
-                <h3>2. Add Configuration</h3>
+                <h4>2. Add Configuration to appsettings.json</h4>
                 <div class="code-block">
                     <div class="code-header">
                         <span>appsettings.json</span>
@@ -216,12 +265,131 @@ app.Run();</code></pre>
     "Scope": "urn:uae:digitalid:profile:general",
     "Environment": "Staging",
     "ResponseType": "code",
+    "EnableLogging": true,
+    "TimeoutSeconds": 30,
+    "UseProxy": false
+  }
+}</code></pre>
+                </div>
+
+                <h3>Method 2: Hardcoded Configuration</h3>
+                
+                <h4>Configure Services with Options</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Program.cs (Hardcoded)</span>
+                        <button class="copy-button" onclick="copyCode('program-cs-hardcoded')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="program-cs-hardcoded"><code>using SuperUaePass.Extensions;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add session support (REQUIRED for state parameter validation)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Configure SuperUaePass services with hardcoded options
+builder.Services.AddSuperUaePass(options =>
+{
+    // UAE Pass Environment URLs
+    options.BaseUrl = "https://stg-id.uaepass.ae"; // Staging environment
+    // options.BaseUrl = "https://id.uaepass.ae"; // Production environment
+    
+    // Your UAE Pass credentials (provided during onboarding)
+    options.ClientId = "your-client-id";
+    options.ClientSecret = "your-client-secret";
+    options.RedirectUri = "https://your-app.com/callback";
+    options.Scope = "urn:uae:digitalid:profile:general";
+    
+    // Environment configuration
+    options.Environment = UaePassEnvironment.Staging;
+    options.ResponseType = "code";
+    options.EnableLogging = true;
+    options.TimeoutSeconds = 30;
+    
+    // Optional: Configure proxy for enterprise environments
+    options.UseProxy = true;
+    options.ProxyUrl = "http://your-proxy:8080";
+    options.ProxyUsername = "proxy-user";
+    options.ProxyPassword = "proxy-password";
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseSession();
+app.MapControllers();
+app.Run();</code></pre>
+                </div>
+
+                <h3>Method 3: Custom Configuration Section</h3>
+                
+                <h4>Configure Services with Custom Section</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Program.cs (Custom Section)</span>
+                        <button class="copy-button" onclick="copyCode('program-cs-custom')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="program-cs-custom"><code>using SuperUaePass.Extensions;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add session support (REQUIRED for state parameter validation)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Configure SuperUaePass services using custom configuration section
+builder.Services.AddSuperUaePass(builder.Configuration, "CustomUaePassSection");
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseSession();
+app.MapControllers();
+app.Run();</code></pre>
+                </div>
+
+                <h4>Custom Configuration in appsettings.json</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>appsettings.json (Custom Section)</span>
+                        <button class="copy-button" onclick="copyCode('appsettings-custom')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="appsettings-custom"><code>{
+  "CustomUaePassSection": {
+    "BaseUrl": "https://stg-id.uaepass.ae",
+    "ClientId": "your_client_id",
+    "ClientSecret": "your_client_secret",
+    "RedirectUri": "https://your-domain.com/callback",
+    "Scope": "urn:uae:digitalid:profile:general",
+    "Environment": "Staging",
+    "ResponseType": "code",
     "EnableLogging": true
   }
 }</code></pre>
                 </div>
 
-                <h3>3. Use in Controller</h3>
+                <h3>4. Use in Controller</h3>
                 <div class="code-block">
                     <div class="code-header">
                         <span>HomeController.cs</span>
@@ -232,26 +400,53 @@ app.Run();</code></pre>
                     <pre id="controller"><code>public class HomeController : Controller
 {
     private readonly ISuperUaePassService _uaePassService;
+    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ISuperUaePassService uaePassService)
+    public HomeController(ISuperUaePassService uaePassService, ILogger<HomeController> logger)
     {
         _uaePassService = uaePassService;
+        _logger = logger;
     }
 
     public IActionResult Login()
     {
         var state = Guid.NewGuid().ToString();
+        
+        // Store state in session for validation
+        HttpContext.Session.SetString("UaePassState", state);
+        
         var authUrl = _uaePassService.GenerateAuthorizationUrl(state);
         return Redirect(authUrl);
     }
 
     public async Task<IActionResult> Callback(string code, string state)
     {
-        var tokenResponse = await _uaePassService.ExchangeCodeForTokenAsync(code);
-        var userProfile = await _uaePassService.GetUserProfileAsync(tokenResponse.AccessToken);
-        
-        // Handle user authentication
-        return RedirectToAction("Profile");
+        try
+        {
+            // Validate state parameter to prevent CSRF attacks
+            var storedState = HttpContext.Session.GetString("UaePassState");
+            if (string.IsNullOrEmpty(storedState) || storedState != state)
+            {
+                return BadRequest("Invalid state parameter");
+            }
+
+            // Clear the state from session after validation
+            HttpContext.Session.Remove("UaePassState");
+
+            var tokenResponse = await _uaePassService.ExchangeCodeForTokenAsync(code, state);
+            var userProfile = await _uaePassService.GetUserProfileAsync(tokenResponse.AccessToken);
+            
+            // Store user information in session
+            HttpContext.Session.SetString("IsAuthenticated", "true");
+            HttpContext.Session.SetString("UserProfile", JsonSerializer.Serialize(userProfile));
+            
+            return RedirectToAction("Profile");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "UAE Pass authentication failed");
+            return RedirectToAction("Error", new { error = "Authentication failed" });
+        }
     }
 }</code></pre>
                 </div>
@@ -790,6 +985,141 @@ if (userProfile.Acr != "urn:safelayer:tws:policies:authentication:level:low")
     _logger.LogWarning("Insufficient authentication level: {Acr}", userProfile.Acr);
     return BadRequest("Insufficient authentication level");
 }</code></pre>
+                </div>
+            </section>
+
+            <!-- Troubleshooting -->
+            <section id="troubleshooting" class="docs-section">
+                <h2>Troubleshooting</h2>
+                <p>Common issues and solutions when integrating UAE Pass:</p>
+                
+                <h3>Common Issues</h3>
+                
+                <div class="troubleshooting-item">
+                    <h4>1. Invalid Redirect URI</h4>
+                    <p><strong>Problem:</strong> UAE Pass returns "invalid_redirect_uri" error.</p>
+                    <p><strong>Solution:</strong> Ensure the redirect URI in your configuration matches exactly what's registered with UAE Pass, including protocol, domain, port, and path.</p>
+                    <div class="code-block">
+                        <pre><code>// Correct format
+"RedirectUri": "https://your-domain.com/callback"
+
+// Common mistakes
+"RedirectUri": "http://your-domain.com/callback"  // Wrong protocol
+"RedirectUri": "https://your-domain.com/callback/" // Extra slash
+"RedirectUri": "https://your-domain.com/Callback"  // Wrong case</code></pre>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <h4>2. State Parameter Mismatch</h4>
+                    <p><strong>Problem:</strong> "Invalid state parameter" error.</p>
+                    <p><strong>Solution:</strong> Verify session is properly configured and state parameter is stored/retrieved correctly.</p>
+                    <div class="code-block">
+                        <pre><code>// Ensure session is configured
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Use session middleware in correct order
+app.UseSession(); // Must be after routing, before authorization</code></pre>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <h4>3. Network Issues</h4>
+                    <p><strong>Problem:</strong> Unable to connect to UAE Pass endpoints.</p>
+                    <p><strong>Solution:</strong> Check proxy configuration and network connectivity to UAE Pass endpoints.</p>
+                    <div class="code-block">
+                        <pre><code>// Configure proxy if behind corporate firewall
+options.UseProxy = true;
+options.ProxyUrl = "http://your-proxy:8080";
+options.ProxyUsername = "proxy-user";
+options.ProxyPassword = "proxy-password";</code></pre>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <h4>4. Invalid Credentials</h4>
+                    <p><strong>Problem:</strong> "invalid_client" or "unauthorized_client" error.</p>
+                    <p><strong>Solution:</strong> Verify client ID and secret are correct for the environment you're using.</p>
+                    <div class="code-block">
+                        <pre><code>// Staging environment
+"BaseUrl": "https://stg-id.uaepass.ae"
+"ClientId": "staging_client_id"
+"ClientSecret": "staging_client_secret"
+
+// Production environment
+"BaseUrl": "https://id.uaepass.ae"
+"ClientId": "production_client_id"
+"ClientSecret": "production_client_secret"</code></pre>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <h4>5. Session Not Working</h4>
+                    <p><strong>Problem:</strong> Session data is not persisting between requests.</p>
+                    <p><strong>Solution:</strong> Ensure session middleware is configured and used in the correct order.</p>
+                    <div class="code-block">
+                        <pre><code>// Correct middleware order
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseSession(); // Must be after routing, before authorization
+app.UseAuthorization();</code></pre>
+                    </div>
+                </div>
+
+                <h3>Debug Mode</h3>
+                <p>Enable logging to troubleshoot issues:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Enable Debug Logging</span>
+                        <button class="copy-button" onclick="copyCode('debug-logging')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="debug-logging"><code>{
+  "SuperUaePass": {
+    "EnableLogging": true
+  },
+  "Logging": {
+    "LogLevel": {
+      "SuperUaePass": "Debug",
+      "Default": "Information"
+    }
+  }
+}</code></pre>
+                </div>
+
+                <h3>Testing Checklist</h3>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1" checked disabled>
+                        <label for="check1">UAE Pass staging environment is accessible</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2" checked disabled>
+                        <label for="check2">Client ID and secret are valid for staging</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3" checked disabled>
+                        <label for="check3">Redirect URI is registered with UAE Pass</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4" checked disabled>
+                        <label for="check4">Session is properly configured</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5" checked disabled>
+                        <label for="check5">HTTPS is used (required for production)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6" checked disabled>
+                        <label for="check6">UAE Pass mobile app is installed for testing</label>
+                    </div>
                 </div>
             </section>
         </div>

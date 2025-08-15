@@ -847,3 +847,125 @@ body {
 .skip-link:focus {
   top: 6px;
 }
+
+/* Troubleshooting Styles */
+.troubleshooting-item {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.troubleshooting-item h4 {
+  color: var(--gray-800);
+  margin-bottom: var(--space-3);
+  font-weight: 600;
+}
+
+.troubleshooting-item p {
+  color: var(--gray-600);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+.troubleshooting-item strong {
+  color: var(--gray-800);
+  font-weight: 600;
+}
+
+.checklist {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.checklist-item:last-child {
+  margin-bottom: 0;
+}
+
+.checklist-item input[type="checkbox"] {
+  margin-right: var(--space-3);
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-500);
+}
+
+.checklist-item label {
+  color: var(--gray-700);
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+
+.checklist-item input[type="checkbox"]:checked + label {
+  color: var(--green-500);
+  text-decoration: line-through;
+}
+
+/* Enhanced Prerequisites Styles */
+.prerequisites-list {
+  display: grid;
+  gap: var(--space-6);
+  margin: var(--space-6) 0;
+}
+
+.prerequisite-item {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  transition: all 0.2s ease;
+}
+
+.prerequisite-item:hover {
+  border-color: var(--primary-300);
+  box-shadow: var(--shadow-md);
+}
+
+.prerequisite-icon {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+}
+
+.prerequisite-content h4 {
+  color: var(--gray-800);
+  margin-bottom: var(--space-3);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.prerequisite-content ul {
+  margin: 0;
+  padding-left: var(--space-4);
+  color: var(--gray-600);
+}
+
+.prerequisite-content li {
+  margin-bottom: var(--space-2);
+  line-height: 1.5;
+}
+
+.prerequisite-content li:last-child {
+  margin-bottom: 0;
+}

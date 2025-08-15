@@ -32,6 +32,17 @@
       "timestamp": "2025-08-13T10:29:11.039Z",
       "sessionId": "d8d606a9-00a8-ecf0-9fac-964946d1ca36",
       "visitDuration": null
+    },
+    {
+      "id": "4816326d-2aca-47e3-b560-5d465fdb40cc",
+      "pageUrl": "https://localhost:7259/docs",
+      "pageTitle": "Documentation - SuperUaePass",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ipAddress": "::1",
+      "referrer": "https://localhost:7259/docs",
+      "timestamp": "2025-08-15T05:58:25.051Z",
+      "sessionId": "f47ef819-92b3-998f-29f8-d91b3eacc416",
+      "visitDuration": null
     }
   ],
   "pageFeedback": [
@@ -47,5 +58,5 @@
       "sessionId": "57c5091b-0ec3-4304-f43a-165b7492ddd6"
     }
   ],
-  "lastUpdated": "2025-08-13T10:29:12.5101139Z"
+  "lastUpdated": "2025-08-15T05:58:25.2182981Z"
 }

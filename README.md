@@ -15,6 +15,36 @@ A comprehensive .NET library for integrating UAE Pass authentication into your a
 - 📊 **Logging Support** - Detailed logging for debugging and monitoring
 - 🏛️ **Official Compliance** - Based on official UAE Pass documentation
 
+## Prerequisites
+
+Before integrating SuperUaePass into your application, ensure you have the following requirements:
+
+### 1. UAE Pass Developer Account
+- **Staging Environment Account**: Developer/Tester should have a user account created on the UAE Pass staging environment
+- **UAE Pass Mobile App**: Staging mobile app should be installed on the developer's device for testing purposes
+- **Emirates ID**: Valid Emirates ID for testing authentication flow
+
+### 2. UAE Pass Application Registration
+- **Client ID and Secret**: Valid credentials from UAE Pass service provider registration
+- **Redirect URI**: Properly configured callback URL that matches your UAE Pass application settings
+- **Application Assessment**: Complete UAE Pass application assessment for production access
+
+### 3. Technical Requirements
+- **.NET 6.0+**: Minimum .NET version required
+- **HTTPS**: Required for production environments
+- **Session Support**: For state parameter validation and CSRF protection
+- **HTTP Client**: For making API calls to UAE Pass endpoints
+
+### 4. Network Requirements
+- **Internet Access**: Required to connect to UAE Pass APIs
+- **Proxy Configuration**: If behind corporate firewall (optional)
+- **DNS Resolution**: Ability to resolve UAE Pass domain names
+
+### 5. Development Environment
+- **Visual Studio 2022** or **VS Code**: For development
+- **UAE Pass Staging Environment**: For testing and development
+- **Valid Test Data**: Emirates ID and user credentials for testing
+
 ## Installation
 
 ```bash
@@ -23,7 +53,37 @@ dotnet add package SuperUaePass
 
 ## Quick Start
 
-### 1. Configure Services
+### Method 1: Configuration-Based Setup (Recommended)
+
+#### 1. Configure Services with appsettings.json
+
+```csharp
+// In Program.cs or Startup.cs
+builder.Services.AddSuperUaePass(builder.Configuration);
+```
+
+#### 2. Add Configuration to appsettings.json
+
+```json
+{
+  "SuperUaePass": {
+    "BaseUrl": "https://stg-id.uaepass.ae",
+    "ClientId": "your-client-id",
+    "ClientSecret": "your-client-secret",
+    "RedirectUri": "https://your-app.com/callback",
+    "Scope": "urn:uae:digitalid:profile:general",
+    "Environment": "Staging",
+    "ResponseType": "code",
+    "EnableLogging": true,
+    "TimeoutSeconds": 30,
+    "UseProxy": false
+  }
+}
+```
+
+### Method 2: Hardcoded Configuration
+
+#### 1. Configure Services with Options
 
 ```csharp
 // In Program.cs or Startup.cs
@@ -39,6 +99,12 @@ builder.Services.AddSuperUaePass(options =>
     options.RedirectUri = "https://your-app.com/callback";
     options.Scope = "urn:uae:digitalid:profile:general";
     
+    // Environment configuration
+    options.Environment = UaePassEnvironment.Staging;
+    options.ResponseType = "code";
+    options.EnableLogging = true;
+    options.TimeoutSeconds = 30;
+    
     // Optional: Configure proxy for enterprise environments
     options.UseProxy = true;
     options.ProxyUrl = "http://your-proxy:8080";
@@ -47,7 +113,42 @@ builder.Services.AddSuperUaePass(options =>
 });
 ```
 
-### 2. Use in Controller
+### Method 3: Custom Configuration Section
+
+```csharp
+// In Program.cs or Startup.cs
+builder.Services.AddSuperUaePass(builder.Configuration, "CustomUaePassSection");
+```
+
+```json
+{
+  "CustomUaePassSection": {
+    "BaseUrl": "https://stg-id.uaepass.ae",
+    "ClientId": "your-client-id",
+    "ClientSecret": "your-client-secret",
+    "RedirectUri": "https://your-app.com/callback"
+  }
+}
+```
+
+### 2. Add Session Support (Required)
+
+```csharp
+// In Program.cs or Startup.cs
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+app.UseSession();
+```
+
+### 3. Use in Controller
 
 ```csharp
 [ApiController]
@@ -224,21 +325,21 @@ public class AuthController : ControllerBase
 
 ## Configuration Options
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `BaseUrl` | string | Yes | UAE Pass API base URL |
-| `ClientId` | string | Yes | Your UAE Pass application client ID (from onboarding) |
-| `ClientSecret` | string | Yes | Your UAE Pass application client secret (from onboarding) |
-| `RedirectUri` | string | Yes | Redirect URI after authentication (must be registered) |
-| `Scope` | string | No | OAuth scope (default: "urn:uae:digitalid:profile:general") |
-| `ResponseType` | string | No | Response type (default: "code") |
-| `Environment` | UaePassEnvironment | No | Environment type (Staging/Production) |
-| `UseProxy` | bool | No | Whether to use proxy (default: false) |
-| `ProxyUrl` | string | No | Proxy URL when UseProxy is true |
-| `ProxyUsername` | string | No | Proxy username |
-| `ProxyPassword` | string | No | Proxy password |
-| `TimeoutSeconds` | int | No | HTTP timeout in seconds (default: 30) |
-| `EnableLogging` | bool | No | Enable detailed logging (default: false) |
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `BaseUrl` | string | Yes | - | UAE Pass API base URL |
+| `ClientId` | string | Yes | - | Your UAE Pass application client ID (from onboarding) |
+| `ClientSecret` | string | Yes | - | Your UAE Pass application client secret (from onboarding) |
+| `RedirectUri` | string | Yes | - | Redirect URI after authentication (must be registered) |
+| `Scope` | string | No | "urn:uae:digitalid:profile:general" | OAuth scope |
+| `ResponseType` | string | No | "code" | Response type |
+| `Environment` | UaePassEnvironment | No | Staging | Environment type (Staging/Production) |
+| `UseProxy` | bool | No | false | Whether to use proxy |
+| `ProxyUrl` | string | No | - | Proxy URL when UseProxy is true |
+| `ProxyUsername` | string | No | - | Proxy username |
+| `ProxyPassword` | string | No | - | Proxy password |
+| `TimeoutSeconds` | int | No | 30 | HTTP timeout in seconds |
+| `EnableLogging` | bool | No | false | Enable detailed logging |
 
 ## UAE Pass Environments
 
@@ -246,33 +347,59 @@ public class AuthController : ControllerBase
 - **URL**: `https://stg-id.uaepass.ae`
 - **Purpose**: Testing and development
 - **Credentials**: Provided during onboarding process
+- **Mobile App**: Staging version required for testing
 
 ### Production Environment
 - **URL**: `https://id.uaepass.ae`
 - **Purpose**: Live applications
 - **Credentials**: Provided after successful assessment
+- **Mobile App**: Production version
 
-## Configuration from appsettings.json
-
-```json
-{
-  "SuperUaePass": {
-    "BaseUrl": "https://stg-id.uaepass.ae",
-    "ClientId": "your-client-id",
-    "ClientSecret": "your-client-secret",
-    "RedirectUri": "https://your-app.com/callback",
-    "Scope": "urn:uae:digitalid:profile:general",
-    "Environment": "Staging",
-    "UseProxy": false,
-    "TimeoutSeconds": 30,
-    "EnableLogging": true
-  }
-}
-```
+## Complete Program.cs Example
 
 ```csharp
-// Register with configuration
+using SuperUaePass.Extensions;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add session support (REQUIRED for state parameter validation)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Configure SuperUaePass services using configuration
 builder.Services.AddSuperUaePass(builder.Configuration);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// Use session middleware (REQUIRED)
+app.UseSession();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
 ```
 
 ## API Reference
@@ -411,6 +538,8 @@ The callback will return to your controller with the authorization code, which y
 4. **Token Storage**: Store tokens securely and never expose them in client-side code
 5. **Token Validation**: Validate ID tokens before trusting user information
 6. **UAE Pass Compliance**: Follow UAE Pass security guidelines
+7. **Session Security**: Use secure session configuration
+8. **Input Validation**: Validate all inputs from UAE Pass responses
 
 ## User Type Validation
 
@@ -478,6 +607,28 @@ catch (Exception ex)
 5. **Assessment**: Complete UAE Pass assessment
 6. **Production**: Go live with production credentials
 
+## Troubleshooting
+
+### Common Issues
+
+1. **Invalid Redirect URI**: Ensure the redirect URI in your configuration matches exactly what's registered with UAE Pass
+2. **State Parameter Mismatch**: Verify session is properly configured and state parameter is stored/retrieved correctly
+3. **Network Issues**: Check proxy configuration and network connectivity to UAE Pass endpoints
+4. **Invalid Credentials**: Verify client ID and secret are correct for the environment you're using
+5. **Session Not Working**: Ensure session middleware is configured and used in the correct order
+
+### Debug Mode
+
+Enable logging to troubleshoot issues:
+
+```json
+{
+  "SuperUaePass": {
+    "EnableLogging": true
+  }
+}
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -495,3 +646,4 @@ For support, please open an issue on GitHub or contact the maintainers.
 - [Official UAE Pass Documentation](https://docs.uaepass.ae/)
 - [UAE Pass Onboarding Guide](https://docs.uaepass.ae/getting-onboarded-with-uaepass)
 - [UAE Pass Staging Environment](https://docs.uaepass.ae/quick-start-guide-uaepass-staging-environment)
+- [UAE Pass Pre-requisites](https://docs.uaepass.ae/feature-guides/authentication/web-application/pre-requisites)
