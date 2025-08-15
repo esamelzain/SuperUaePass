@@ -10,8 +10,8 @@
     <Version>1.1.0</Version>
     <Authors>Esam Elzain</Authors>
     <Company>SuperUaePass</Company>
-    <Description>Professional UAE Pass integration library for .NET applications. Supports OAuth 2.0 authentication, user profile retrieval, and multi-targeting (.NET 6.0, 7.0, 8.0, 9.0).</Description>
-    <PackageTags>uae-pass;authentication;identity;emirates-id;oauth2;dotnet;aspnetcore</PackageTags>
+    <Description>Professional UAE Pass integration library for .NET applications. Supports OAuth 2.0 authentication, user profile retrieval, and multi-targeting (.NET 6.0, 7.0, 8.0, 9.0). Compatible with .NET 6.0+, .NET 7.0+, .NET 8.0+, and .NET 9.0+.</Description>
+    <PackageTags>uae-pass;authentication;identity;emirates-id;oauth2;dotnet;aspnetcore;net6;net7;net8;net9;dotnet6;dotnet7;dotnet8;dotnet9</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>uae-pass.png</PackageIcon>

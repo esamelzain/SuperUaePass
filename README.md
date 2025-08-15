@@ -15,6 +15,12 @@ A comprehensive .NET library for integrating UAE Pass authentication into your a
 - 📊 **Logging Support** - Detailed logging for debugging and monitoring
 - 🏛️ **Official Compliance** - Based on official UAE Pass documentation
 
+### 🎯 Supported .NET Versions
+- **.NET 6.0** ✅ (LTS)
+- **.NET 7.0** ✅ 
+- **.NET 8.0** ✅ (LTS)
+- **.NET 9.0** ✅ (Latest)
+
 ## Prerequisites
 
 Before integrating SuperUaePass into your application, ensure you have the following requirements:
